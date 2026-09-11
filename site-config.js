@@ -90,7 +90,7 @@ async function fetchPortfolio(apiBaseUrl, attempt = 1) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), API_CONFIG.timeout);
     try {
-        const endpoint = `${apiBaseUrl}/api/v5/socialcard/${encodeURIComponent(API_CONFIG.profileId)}`;
+        const endpoint = `${apiBaseUrl}/api/v6/socialcard/${encodeURIComponent(API_CONFIG.profileId)}`;
         const response = await fetch(endpoint, {
             signal: controller.signal, headers: { 'Content-Type': 'application/json' }
         });
