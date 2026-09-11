@@ -171,6 +171,7 @@ function validateConfig(data) {
 }
 
 // Render Header Block
+// Render Header Block
 function renderHeader(header, userConfig = {}, lanyardConfig = {}) {
     const profilePicUrl = userConfig.avatar_url || 'https://via.placeholder.com/120';
     const displayName = userConfig.first_name || header.name;
@@ -193,9 +194,20 @@ function renderHeader(header, userConfig = {}, lanyardConfig = {}) {
     if (userConfig.age) {
         badgesHTML += `<span class="badge">${escapeHtml(String(userConfig.age))} yrs</span>`;
     }
-    if (typeof userConfig.relationship === 'boolean') {
-        const relText = userConfig.relationship ? 'Taken 💖' : 'Single 💔';
-        badgesHTML += `<span class="badge badge-pink">${relText}</span>`;
+    
+    // Relationship status handling by Integer ID
+    const relStatusMap = {
+        1: { text: 'Unknown', class: 'badge-grey' },
+        2: { text: 'Single 💔', class: 'badge-alt-grey' },
+        3: { text: 'Taken 💖', class: 'badge-pink' },
+        4: { text: 'Pending ⏳', class: 'badge-blue' },
+        5: { text: 'Complicated 🌀', class: 'badge-yellow' }
+    };
+
+    const statusId = Number(userConfig.relationship);
+    if (statusId > 0 && relStatusMap[statusId]) {
+        const status = relStatusMap[statusId];
+        badgesHTML += `<span class="badge ${status.class}">${escapeHtml(status.text)}</span>`;
     }
 
     return `
